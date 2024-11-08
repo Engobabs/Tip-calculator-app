@@ -1,0 +1,252 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+body {
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  background-color: hsl(185, 41%, 84%);
+}
+
+main {
+  width: 21rem;
+  margin: auto;
+  z-index: 5;
+  box-shadow: inset hsl(186, 14%, 43%);
+}
+
+header {
+  margin: 1.5rem auto;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+#main {
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 1rem 1rem 0 0;
+  padding: 1.25rem 2rem;
+}
+
+.input {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.icon {
+  position: absolute;
+  left: 1rem;
+  top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.5rem;
+  height: 75%;
+}
+
+.icon2 {
+  font-size: 1.5rem;
+  height: 125%;
+  font-weight: 700;
+}
+
+.tip {
+  margin-top: 0.5rem;
+}
+
+.total {
+  margin-bottom: 1.25rem;
+}
+.input-field {
+  width: 100%;
+  padding: 0.5rem;
+  border: 0;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: hsl(183, 100%, 15%);
+  border-radius: 0.25rem;
+  text-align: right;
+  background-color: hsl(189, 41%, 97%);
+}
+.input-field:hover {
+  outline: 0.125rem solid hsl(172, 67%, 45%);
+  cursor: pointer;
+}
+.input-field:focus {
+  outline: 0.125rem solid hsl(172, 67%, 45%);
+}
+
+.text {
+  color: hsl(186, 14%, 43%);
+  font-size: 0.875rem;
+  margin: 1rem 0 0;
+}
+
+.btn {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 0.75rem;
+  row-gap: 0.75rem;
+}
+
+.tips--number:hover {
+  background-color: hsl(172, 67%, 45%);
+  color: hsl(183, 100%, 15%);
+  cursor: pointer;
+}
+
+.tips--number {
+  width: 8.125rem;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: 0.25rem;
+  background-color: hsl(183, 100%, 15%);
+  color: hsl(0, 0%, 100%);
+  font-family: inherit;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+#custom {
+  background-color: hsl(189, 41%, 97%);
+  color: hsl(186, 14%, 43%);
+}
+
+#custom:hover {
+  outline: 0.125rem solid hsl(172, 67%, 45%);
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.text {
+  margin-bottom: 0.5rem;
+}
+
+.second {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  margin: 1.5rem 0 0;
+  background-color: hsl(183, 100%, 15%);
+  color: hsl(0, 0%, 100%);
+}
+
+.money {
+  color: hsl(172, 67%, 45%);
+  font-size: 1.5rem;
+}
+
+.person {
+  display: block;
+  font-size: 0.75rem;
+  color: hsl(186, 14%, 43%);
+}
+
+.output {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+p {
+  font-size: 0.75rem;
+}
+
+/* .hidden1,
+.hidden2 {
+  display: none;
+} */
+.reset {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0 1rem;
+  border: 0;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  color: hsl(183, 100%, 15%);
+  font-weight: 700;
+  font-family: inherit;
+  font-size: 1.125rem;
+  background-color: hsl(172, 67%, 45%);
+}
+.reset:hover {
+  background-color: hsla(185, 41%, 84%, 0.8);
+  cursor: pointer;
+}
+.attribution {
+  font-size: 11px;
+  text-align: center;
+}
+
+.attribution a {
+  color: hsl(228, 45%, 44%);
+}
+
+@media (min-width: 50rem) {
+  main {
+    width: 46.5rem;
+    margin: 8rem auto 1rem;
+  }
+  #main {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+
+  .first {
+    width: 21rem;
+    margin: rem;
+  }
+
+  .second {
+    width: 21rem;
+    padding: 2rem;
+    margin-top: 0;
+  }
+
+  .btn {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    column-gap: 0.75rem;
+    row-gap: 0.75rem;
+  }
+
+  .tips--number {
+    width: 6.5rem;
+    padding: 0.5rem;
+  }
+  .reset {
+    margin-top: 4rem;
+  }
+  .output {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 1rem 0;
+  }
+  .first {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0.5rem 0;
+  }
+  .tip {
+    margin: 0 0 1rem;
+  }
+}
