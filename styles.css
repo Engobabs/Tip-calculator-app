@@ -164,10 +164,19 @@ p {
   font-size: 0.75rem;
 }
 
-/* .hidden1,
-.hidden2 {
+.error1:not(.hide-error),
+.error2:not(.hide-error) {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.75rem;
+  font-family: inherit;
+  color: #ee2121;
+}
+
+.hide-error {
   display: none;
-} */
+}
+
 .reset {
   width: 100%;
   padding: 0.5rem;
