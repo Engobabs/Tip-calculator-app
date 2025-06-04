@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let isPeopleTouched = false;
 
     // Allow only numbers in input
-    function enforceNumericInput(inputElement) {
+    function numericInput(inputElement) {
         inputElement.addEventListener('input', () => {
             const cleaned = inputElement.value.replace(/[^0-9.]/g, '');
             if (inputElement.value !== cleaned) {
@@ -26,9 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    enforceNumericInput(billInput);
-    enforceNumericInput(customTipInput);
-    enforceNumericInput(peopleInput);
+    numericInput(billInput);
+    numericInput(customTipInput);
+    numericInput(peopleInput);
 
     // SVG Generator
     function createDollarSVG() {
