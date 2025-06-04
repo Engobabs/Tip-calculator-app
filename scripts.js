@@ -10,28 +10,29 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalAmountPerPerson = document.querySelector('.total');
     const resetButton = document.querySelector('.reset');
 
-    let billValue = '';
-    let tipValue = '';
+    let billValue = 0;
+    let tipValue = 0;
     let peopleValue = 1;
-    let tipAmount = '0.00';
-    let totalAmount = '0.00';
+    let isBillTouched = false;
+    let isPeopleTouched = false;
 
+    // Allow only numbers in input
+    function enforceNumericInput(inputElement) {
+        inputElement.addEventListener('input', () => {
+            const cleaned = inputElement.value.replace(/[^0-9.]/g, '');
+            if (inputElement.value !== cleaned) {
+                inputElement.value = cleaned;
+            }
+        });
+    }
 
+    enforceNumericInput(billInput);
+    enforceNumericInput(customTipInput);
+    enforceNumericInput(peopleInput);
 
-    mainPage.addEventListener("keydown", (e) => {
-        // Allow: Backspace, delete, tab, arrow keys
-        if (["Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight"].includes(e.key)) return;
-
-        //Block if not a number or allowed key
-        if (isNaN(e.key) || e.key === " ") {
-            e.preventDefault();
-        }
-    });
-
-    // Helper function to create the SVG element
+    // SVG Generator
     function createDollarSVG() {
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
         svg.setAttribute("width", "11");
         svg.setAttribute("height", "17");
         svg.setAttribute("viewBox", "0 0 11 17");
@@ -46,77 +47,68 @@ document.addEventListener('DOMContentLoaded', function () {
         return svg;
     }
 
-
-    function updateDisplay() {
-        // Clear previous content
+    function updateDisplay(tipAmount = '0.00', totalAmount = '0.00') {
         tipAmountPerPerson.innerHTML = '';
         totalAmountPerPerson.innerHTML = '';
 
-        // Create new SVG and values
         const dollarSVG = createDollarSVG();
 
-        // Tip amount per person
         tipAmountPerPerson.appendChild(dollarSVG.cloneNode(true));
         tipAmountPerPerson.appendChild(document.createTextNode(tipAmount));
 
-        // Total amount per person
         totalAmountPerPerson.appendChild(dollarSVG.cloneNode(true));
         totalAmountPerPerson.appendChild(document.createTextNode(totalAmount));
     }
 
-    function validateInputs() {
-        const peopleError = document.querySelector('.error2');
-        const billError = document.querySelector('.error1');
+    function validateInputs(inputType) {
+        const inputElement = inputType === 'bill' ? billInput : peopleInput;
+        const errorElement = inputType === 'bill' ? document.querySelector('.error1') : document.querySelector('.error2');
 
-        // Validate People
-        if (!Number(peopleInput.value)) {
-            peopleError.classList.remove('hide-error');
-        } else if (peopleInput.value === "") {
-            peopleError.classList.add('hide-error');
-        } else {
-            peopleError.classList.add('hide-error');
-        }
+        if (inputType === 'bill') isBillTouched = true;
+        else isPeopleTouched = true;
 
-        // Validate Bill
-        if (Number(billInput.value) === 0) {
-            billError.classList.remove('hide-error');
-        } else if (billInput.value === "") {
-            billError.classList.add('hide-error');
+        const value = inputElement.value.trim();
+        const isEmpty = value === '';
+        const isZero = parseFloat(value) === 0;
+
+        if (isEmpty) {
+            errorElement.classList.add('hide-error');
+            inputElement.classList.remove('invalid-input');
         } else {
-            billError.classList.add('hide-error');
+            errorElement.classList.toggle('hide-error', !isZero);
+            inputElement.classList.toggle('invalid-input', isZero);
         }
     }
-
-    billInput.addEventListener('input', validateInputs);
-    peopleInput.addEventListener('input', validateInputs);
 
     function calculateValues() {
-        // Calculate if all required values are available
-        if (billValue > 0 && tipValue > 0 && peopleValue > 0) {
+        if (billValue > 0 && tipValue >= 0 && peopleValue > 0) {
             const totalTip = billValue * tipValue;
-            const tipPerPerson = totalTip
-            const totalPerPerson = totalTip * peopleValue;
-            console.log(totalTip, tipPerPerson, totalPerPerson);
+            const tipPerPerson = totalTip / peopleValue;
+            const totalPerPerson = (billValue + totalTip) / peopleValue;
 
-            tipAmount = tipPerPerson.toFixed(2);
-            totalAmount = totalPerPerson.toFixed(2);
+            updateDisplay(tipPerPerson.toFixed(2), totalPerPerson.toFixed(2));
         } else {
-            tipAmount = '0.00';
-            totalAmount = '0.00';
+            updateDisplay();
         }
-        updateDisplay();
     }
 
+    // Input Events
     billInput.addEventListener('input', function () {
         billValue = parseFloat(this.value) || 0;
-        validateInputs();
+        validateInputs('bill');
+        if (isPeopleTouched) calculateValues();
+    });
+
+    peopleInput.addEventListener('input', function () {
+        peopleValue = parseFloat(this.value) || 0;
+        validateInputs('people');
+        if (isBillTouched) calculateValues();
     });
 
     customTipInput.addEventListener('input', function () {
         tipValue = parseFloat(this.value) / 100 || 0;
         tipButtons.forEach(btn => btn.classList.remove('active-tip'));
-        validateInputs();
-        calculateValues(); // Only calculate if using custom tip
+        calculateValues();
     });
 
     tipButtons.forEach(button => {
@@ -124,57 +116,13 @@ document.addEventListener('DOMContentLoaded', function () {
             tipButtons.forEach(btn => btn.classList.remove('active-tip'));
             this.classList.add('active-tip');
             tipValue = parseFloat(this.textContent) / 100;
-            console.log(tipValue);
             customTipInput.value = '';
             calculateValues();
         });
     });
 
-    peopleInput.addEventListener('input', function () {
-        const newValue = parseFloat(this.value) || 0;
-        console.log(newValue);
-        if (newValue !== peopleValue) {
-            peopleValue = newValue;
-            validateInputs();
-            if (billValue > 0 && tipValue > 0) {
-                calculateValues();
-            }
-        }
-    });
-
-
-    billInput.addEventListener('input', function () {
-        billValue = Number(parseFloat(billInput.value));
-        validateInputs();
-        console.log(billValue);
-        if (isNaN(billValue)) {
-            billValue = 0;
-        }
-        calculateValues();
-    });
-
-    customTipInput.addEventListener('input', function () {
-        tipValue = parseFloat(this.value) / 100 || 0;
-        tipButtons.forEach(btn => btn.classList.remove('active-tip'));
-        validateInputs();
-        calculateValues();
-    });
-
-    tipButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            tipButtons.forEach(btn => btn.classList.remove('active-tip'));
-            this.classList.add('active-tip');
-            tipValue = Number(parseFloat(button.innerText) / 100);
-            customTipInput.value = '';
-            calculateValues();
-        });
-    });
-
-    peopleInput.addEventListener('input', function () {
-        peopleValue = parseFloat(this.value) || 1;
-        validateInputs();
-        calculateValues();
-    });
+    billInput.addEventListener('blur', () => validateInputs('bill'));
+    peopleInput.addEventListener('blur', () => validateInputs('people'));
 
     resetButton.addEventListener('click', function () {
         billInput.value = '';
@@ -182,13 +130,23 @@ document.addEventListener('DOMContentLoaded', function () {
         peopleInput.value = '';
         tipButtons.forEach(btn => btn.classList.remove('active-tip'));
 
+        billInput.classList.remove('invalid-input');
+        peopleInput.classList.remove('invalid-input');
+
         billValue = 0;
         tipValue = 0;
         peopleValue = 1;
+        isBillTouched = false;
+        isPeopleTouched = false;
 
-        calculateValues();
+        updateDisplay();
     });
 
     // Initialize
     updateDisplay();
+
+    billInput.value = '';
+    customTipInput.value = '';
+    peopleInput.value = '';
+
 });

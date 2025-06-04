@@ -19,6 +19,7 @@ body {
 
 main {
   width: 21rem;
+  height: 100svh;
   margin: auto;
   z-index: 5;
   box-shadow: inset hsl(186, 14%, 43%);
@@ -85,8 +86,20 @@ header {
   outline: 0.125rem solid hsl(172, 67%, 45%);
 }
 
+input.invalid-input {
+  border: 0.15625rem solid hsl(0, 100%, 66%) !important;
+  outline: none;
+}
+
+input.invalid-input:hover,
+input.invalid-input:focus {
+  outline: none;
+}
+
 .text {
   color: hsl(186, 14%, 43%);
+  display: flex;
+  justify-content: space-between;
   font-size: 0.875rem;
   margin: 1rem 0 0;
 }
@@ -118,16 +131,15 @@ header {
 
 #custom {
   background-color: hsl(189, 41%, 97%);
-  color: hsl(186, 14%, 43%);
+  color: hsl(183, 100%, 15%);
+  text-align: right;
 }
 
-#custom:hover {
+#custom:hover,
+#custom:focus {
   outline: 0.125rem solid hsl(172, 67%, 45%);
   box-sizing: border-box;
   cursor: pointer;
-}
-.text {
-  margin-bottom: 0.5rem;
 }
 
 .second {
@@ -166,11 +178,12 @@ p {
 
 .error1:not(.hide-error),
 .error2:not(.hide-error) {
-  display: flex;
+  display: inline-flex;
+  position: sticky;
   justify-content: flex-end;
   font-size: 0.75rem;
   font-family: inherit;
-  color: #ee2121;
+  color: hsl(0, 100%, 66%);
 }
 
 .hide-error {
